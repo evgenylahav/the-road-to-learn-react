@@ -38,8 +38,6 @@ export class App extends React.Component {
       searchTerm: DEFAULT_QUERY,
       error: null,
       isLoading: false,
-      sortKey: 'NONE',
-      isSortReverse: false,
     }
 
     this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
@@ -48,13 +46,8 @@ export class App extends React.Component {
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
     this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
-    this.onSort = this.onSort.bind(this);
   }
 
-  onSort(sortKey) {
-    const isSortReverse = this.state.sortKey === sortKey && !this.state.isSortReverse;
-    this.setState({ sortKey, isSortReverse });
-  }
 
   needsToSearchTopStories(searchTerm) {
     return !this.state.results[searchTerm];
@@ -126,7 +119,7 @@ export class App extends React.Component {
   }
 
   render() {
-    const { searchTerm, results, searchKey, error, isLoading, sortKey, isSortReverse } = this.state;
+    const { searchTerm, results, searchKey, error, isLoading } = this.state;
     const page = (results && results[searchKey] && results[searchKey].page) || 0;
     const list = (
       results && results[searchKey] && results[searchKey].hits
@@ -149,9 +142,6 @@ export class App extends React.Component {
             </div>
           : <Table
               list={list}
-              sortKey={sortKey}
-              isSortReverse={isSortReverse}
-              onSort={this.onSort}
               onDismiss={this.onDismiss}
             />
         }

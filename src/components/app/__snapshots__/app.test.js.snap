@@ -41,13 +41,15 @@ exports[`App has a valid snapshot 1`] = `
           }
         }
       >
-        <button
-          className="button-inline"
-          onClick={[Function]}
-          type="button"
-        >
-          Title
-        </button>
+        <div>
+          <button
+            className="button-inline"
+            onClick={[Function]}
+            type="button"
+          >
+            Title
+          </button>
+        </div>
       </span>
       <span
         style={
@@ -56,13 +58,15 @@ exports[`App has a valid snapshot 1`] = `
           }
         }
       >
-        <button
-          className="button-inline"
-          onClick={[Function]}
-          type="button"
-        >
-          Author
-        </button>
+        <div>
+          <button
+            className="button-inline"
+            onClick={[Function]}
+            type="button"
+          >
+            Author
+          </button>
+        </div>
       </span>
       <span
         style={
@@ -71,13 +75,15 @@ exports[`App has a valid snapshot 1`] = `
           }
         }
       >
-        <button
-          className="button-inline"
-          onClick={[Function]}
-          type="button"
-        >
-          Comments
-        </button>
+        <div>
+          <button
+            className="button-inline"
+            onClick={[Function]}
+            type="button"
+          >
+            Comments
+          </button>
+        </div>
       </span>
       <span
         style={
@@ -86,13 +92,15 @@ exports[`App has a valid snapshot 1`] = `
           }
         }
       >
-        <button
-          className="button-inline"
-          onClick={[Function]}
-          type="button"
-        >
-          Points
-        </button>
+        <div>
+          <button
+            className="button-inline"
+            onClick={[Function]}
+            type="button"
+          >
+            Points
+          </button>
+        </div>
       </span>
       <span
         style={

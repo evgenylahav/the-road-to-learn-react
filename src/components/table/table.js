@@ -5,19 +5,35 @@ import { sortBy } from 'lodash';
 import classNames from 'classnames';
 
 
-const Sort = ({ sortKey, activeSortKey, onSort, children }) => {
+const Sort = ({ sortKey, activeSortKey, isSortReverse, onSort, children }) => {
   const sortClass = classNames(
     'button-inline',
     { 'button-active': sortKey === activeSortKey }
   )
 
+  const faStyle = isSortReverse
+    ? "fas fa-sort-down"
+    : "fas fa-sort-up";
+
   return (
+    sortKey === activeSortKey
+    ? <div>
+        <Button 
+          onClick={ () => onSort(sortKey) }
+          className={sortClass}
+        >
+          {children}
+        </Button>
+       <i class={faStyle}></i>
+      </div>
+    : <div>
     <Button 
       onClick={ () => onSort(sortKey) }
       className={sortClass}
     >
       {children}
-    </Button>);
+    </Button>
+  </div>);
 }
 
 const SORTS = {
@@ -28,7 +44,24 @@ const SORTS = {
   POINTS: list => sortBy(list, 'points').reverse(),
 };
 
-export const Table = ({ list, sortKey, isSortReverse, onSort, onDismiss }) => {
+export class Table extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sortKey: 'NONE',
+      isSortReverse: false,
+    };
+    this.onSort = this.onSort.bind(this);
+  }
+
+  onSort(sortKey) {
+    const isSortReverse = this.state.sortKey === sortKey && !this.state.isSortReverse;
+    this.setState({ sortKey, isSortReverse });
+  }
+
+  render () { 
+    const { list, onDismiss } = this.props;
+    const { sortKey, isSortReverse } = this.state;
     const sortedList = SORTS[sortKey](list);
     const reverseSortedList = isSortReverse
       ? sortedList.reverse()
@@ -39,8 +72,9 @@ export const Table = ({ list, sortKey, isSortReverse, onSort, onDismiss }) => {
           <span style={{ width: '40%' }}>
             <Sort
               sortKey={'TITLE'}
-              onSort={onSort}
+              onSort={this.onSort}
               activeSortKey={sortKey}
+              isSortReverse={isSortReverse}
             >
               Title
             </Sort>
@@ -48,8 +82,9 @@ export const Table = ({ list, sortKey, isSortReverse, onSort, onDismiss }) => {
           <span style={{ width: '30%' }}>
             <Sort
               sortKey={'AUTHOR'}
-              onSort={onSort}
+              onSort={this.onSort}
               activeSortKey={sortKey}
+              isSortReverse={isSortReverse}
             >
               Author
             </Sort>
@@ -57,8 +92,9 @@ export const Table = ({ list, sortKey, isSortReverse, onSort, onDismiss }) => {
           <span style={{ width: '10%' }}>
             <Sort
               sortKey={'COMMENTS'}
-              onSort={onSort}
+              onSort={this.onSort}
               activeSortKey={sortKey}
+              isSortReverse={isSortReverse}
             >
               Comments
             </Sort>
@@ -66,8 +102,9 @@ export const Table = ({ list, sortKey, isSortReverse, onSort, onDismiss }) => {
           <span style={{ width: '10%' }}>
             <Sort
               sortKey={'POINTS'}
-              onSort={onSort}
+              onSort={this.onSort}
               activeSortKey={sortKey}
+              isSortReverse={isSortReverse}
             >
               Points
             </Sort>
@@ -98,7 +135,7 @@ export const Table = ({ list, sortKey, isSortReverse, onSort, onDismiss }) => {
         }
       </div>
     );
-}
+}}
 
 Table.propTypes = {
   list: PropTypes.array.isRequired, 
