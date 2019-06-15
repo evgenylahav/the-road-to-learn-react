@@ -2,15 +2,23 @@ import * as React from 'react';
 import { Button } from '../button';
 import PropTypes from 'prop-types';
 import { sortBy } from 'lodash';
+import classNames from 'classnames';
 
 
-const Sort = ({ sortKey, onSort, children }) =>
-  <Button 
-    onClick={ () => onSort(sortKey) }
-    className="button-inline"
-  >
-    {children}
-  </Button>
+const Sort = ({ sortKey, activeSortKey, onSort, children }) => {
+  const sortClass = classNames(
+    'button-inline',
+    { 'button-active': sortKey === activeSortKey }
+  )
+
+  return (
+    <Button 
+      onClick={ () => onSort(sortKey) }
+      className={sortClass}
+    >
+      {children}
+    </Button>);
+}
 
 const SORTS = {
   NONE: list => list,
@@ -20,7 +28,11 @@ const SORTS = {
   POINTS: list => sortBy(list, 'points').reverse(),
 };
 
-export const Table = ({ list, sortKey, onSort, onDismiss }) => {
+export const Table = ({ list, sortKey, isSortReverse, onSort, onDismiss }) => {
+    const sortedList = SORTS[sortKey](list);
+    const reverseSortedList = isSortReverse
+      ? sortedList.reverse()
+      : sortedList;
     return (
       <div className="table">
         <div className='table-header'>
@@ -28,6 +40,7 @@ export const Table = ({ list, sortKey, onSort, onDismiss }) => {
             <Sort
               sortKey={'TITLE'}
               onSort={onSort}
+              activeSortKey={sortKey}
             >
               Title
             </Sort>
@@ -36,6 +49,7 @@ export const Table = ({ list, sortKey, onSort, onDismiss }) => {
             <Sort
               sortKey={'AUTHOR'}
               onSort={onSort}
+              activeSortKey={sortKey}
             >
               Author
             </Sort>
@@ -44,6 +58,7 @@ export const Table = ({ list, sortKey, onSort, onDismiss }) => {
             <Sort
               sortKey={'COMMENTS'}
               onSort={onSort}
+              activeSortKey={sortKey}
             >
               Comments
             </Sort>
@@ -52,6 +67,7 @@ export const Table = ({ list, sortKey, onSort, onDismiss }) => {
             <Sort
               sortKey={'POINTS'}
               onSort={onSort}
+              activeSortKey={sortKey}
             >
               Points
             </Sort>
@@ -61,7 +77,7 @@ export const Table = ({ list, sortKey, onSort, onDismiss }) => {
           </span>
         </div>
         {
-          SORTS[sortKey](list).map(item =>
+          reverseSortedList.map(item =>
             <div key={item.objectID} className="table-row" data-test="table-row">
               <span style={{ width: '40%' }}>
                 <a href={item.url}>{item.title}</a>

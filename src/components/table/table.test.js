@@ -11,7 +11,9 @@ describe('Table unit test', () => {
     list: [
       {title: '1', author: '1', num_comments: 1, points: 2, objectID: 'a'},
       {title: '2', author: '4', num_comments: 5, points: 12, objectID: 'b'},
-    ]
+    ],
+    sortKey: 'TITLE',
+    isSortReverse: false,
   }
   it('renders without crashing', () => {
     const div = document.createElement('div');
